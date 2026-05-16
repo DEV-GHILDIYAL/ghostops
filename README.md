@@ -36,10 +36,21 @@ graph TD
 
 ## 🛠️ Tech Stack
 - **Orchestration**: Kubernetes (Minikube)
+- **Monitoring**: Prometheus, Grafana (kube-prometheus-stack via Helm)
 - **Containerization**: Docker
 - **Backend**: Python 3.x, Flask
 - **Intelligence**: Groq AI (Llama 3.1 70B)
 - **CLI Tools**: `kubectl`
+
+---
+
+## 📊 Monitoring
+GhostOps includes a full Prometheus + Grafana monitoring stack deployed via Helm.
+- CPU Usage per pod
+- Memory Usage per pod  
+- Pod Restart count tracking
+
+![Grafana Dashboard](assets/grafana-spike.png)
 
 ---
 
@@ -99,7 +110,3 @@ Follow these steps to get GhostOps running locally:
 - **Watch the Healing**: Observe the dashboard or run `kubectl get pods -w` to see pods being deleted and recreated.
 - **Read the RCA**: After a healing event, check the **"RCA Reports"** section in the dashboard to see the AI's analysis of the failure.
 
----
-
-> [!NOTE]
-> This project currently operates within a local Minikube environment. External monitoring integrations like Prometheus, Grafana, or AWS CloudWatch are not included in the current version.
