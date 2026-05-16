@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghostops-app
+  labels:
+    app: ghostops-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ghostops-app
+  template:
+    metadata:
+      labels:
+        app: ghostops-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ghostops-service
+spec:
+  type: NodePort
+  selector:
+    app: ghostops-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
