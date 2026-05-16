@@ -1,6 +1,8 @@
 # 👻 GhostOps
 **Autonomous Self-Healing Kubernetes Clusters with Chaos Engineering and AI-Powered RCA.**
 
+![GhostOps Dashboard](assets/dashboard.png)
+
 ---
 
 ## 🚀 What is GhostOps?
