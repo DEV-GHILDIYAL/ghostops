@@ -1,11 +1,21 @@
-# External packages:
-requests
+# GhostOps Project Requirements
 
-# Standard library modules used:
-# subprocess
-# datetime
-# time
-# json
-# random
-# sys
-# os
+# Core & API Libraries
+requests
+python-dotenv
+
+# FastAPI Custom App
+fastapi
+uvicorn
+prometheus_client
+
+# OpenTelemetry Tracing
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-instrumentation-fastapi
+opentelemetry-exporter-jaeger
+
+# Flask WebSockets Dashboard
+flask
+flask-socketio
+simple-websocket

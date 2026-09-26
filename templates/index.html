@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GhostOps Dashboard</title>
+    <title>GhostOps // Autonomous DevSecOps Infrastructure Control</title>
+    <!-- Google Fonts for sleek premium typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --text-color: #c9d1d9;
-            --accent-color: #58a6ff;
-            --danger-color: #f85149;
-            --success-color: #3fb950;
-            --border-color: #30363d;
-            --warning-color: #d29922;
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 27, 43, 0.7);
+            --text-color: #e2e8f0;
+            --accent-color: #00ecff;
+            --danger-color: #ff3b3b;
+            --success-color: #00ff66;
+            --border-color: rgba(0, 236, 255, 0.15);
+            --warning-color: #ffaa00;
+            --panel-glow: rgba(0, 236, 255, 0.05);
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 30px;
+            background-image: radial-gradient(circle at 50% 50%, #151a30 0%, #0b0f19 80%);
+            min-height: 100vh;
         }
         .container {
             max-width: 1400px;
@@ -30,105 +35,203 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+            position: relative;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 150px;
+            height: 2px;
+            background-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color);
         }
         .logo-box {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
         .status-dot {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             background-color: var(--success-color);
-            box-shadow: 0 0 10px var(--success-color);
+            box-shadow: 0 0 15px var(--success-color);
+            animation: pulse 2s infinite alternate;
         }
-        h1 { margin: 0; color: var(--accent-color); font-size: 1.5rem; letter-spacing: 1px; }
-        .chaos-btn {
-            background: linear-gradient(135deg, #f85149 0%, #b62323 100%);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: transform 0.1s, box-shadow 0.2s;
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            100% { transform: scale(1.15); opacity: 1; }
+        }
+        h1 { 
+            margin: 0; 
+            color: var(--text-color); 
+            font-size: 1.8rem; 
+            font-weight: 800;
+            letter-spacing: 2px; 
             text-transform: uppercase;
         }
+        h1 span {
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 236, 255, 0.4);
+        }
+        .chaos-btn {
+            background: linear-gradient(135deg, var(--danger-color) 0%, #9e0000 100%);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 4px 15px rgba(255, 59, 59, 0.2);
+        }
         .chaos-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(248, 81, 73, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 59, 59, 0.5);
+            border-color: rgba(255,255,255,0.4);
         }
         .chaos-btn:active { transform: translateY(0); }
         
         .grid {
             display: grid;
-            grid-template-columns: 2fr 1.5fr;
-            gap: 25px;
+            grid-template-columns: 1.8fr 1.2fr;
+            gap: 30px;
         }
         .card {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+        .card:hover {
+            border-color: rgba(0, 236, 255, 0.3);
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            opacity: 0.3;
         }
         .card h2 { 
             margin-top: 0; 
-            font-size: 1rem; 
-            color: #8b949e; 
+            font-size: 1.1rem; 
+            color: #94a3b8; 
             text-transform: uppercase; 
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
         }
+        .card h2 span {
+            font-size: 0.8rem;
+            background: rgba(0, 236, 255, 0.1);
+            color: var(--accent-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            font-family: 'Fira Code', monospace;
+        }
+        
         table { width: 100%; border-collapse: collapse; }
-        th, td { text-align: left; padding: 12px 8px; border-bottom: 1px solid var(--border-color); }
-        th { font-size: 0.75rem; color: #8b949e; }
-        td { font-size: 0.9rem; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+        th, td { text-align: left; padding: 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        th { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        td { font-size: 0.9rem; font-family: 'Fira Code', monospace; }
         
-        .status-running { color: var(--success-color); font-weight: bold; }
-        .status-error { color: var(--danger-color); font-weight: bold; }
-        .status-pending { color: var(--warning-color); }
+        .status-running { color: var(--success-color); font-weight: bold; text-shadow: 0 0 8px rgba(0,255,102,0.2); }
+        .status-error { color: var(--danger-color); font-weight: bold; text-shadow: 0 0 8px rgba(255,59,59,0.2); }
+        .status-pending { color: var(--warning-color); text-shadow: 0 0 8px rgba(255,170,0,0.2); }
         
-        .scrollable { max-height: 500px; overflow-y: auto; padding-right: 10px; }
+        .scrollable { max-height: 480px; overflow-y: auto; padding-right: 8px; }
         .scrollable::-webkit-scrollbar { width: 6px; }
-        .scrollable::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+        .scrollable::-webkit-scrollbar-thumb { background: rgba(0, 236, 255, 0.2); border-radius: 4px; }
         
         .rca-item {
-            border-left: 3px solid var(--accent-color);
-            padding-left: 15px;
+            border-left: 4px solid var(--accent-color);
+            padding: 16px;
             margin-bottom: 20px;
-            background: rgba(88, 166, 255, 0.05);
-            padding: 15px;
-            border-radius: 0 4px 4px 0;
+            background: rgba(0, 236, 255, 0.03);
+            border-radius: 0 8px 8px 0;
+            animation: slideIn 0.3s ease;
+            transition: all 0.3s ease;
+            border-top: 1px solid rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+            border-right: 1px solid rgba(255,255,255,0.02);
         }
-        .rca-meta { font-size: 0.8rem; color: #8b949e; margin-bottom: 8px; }
-        .rca-meta span { color: var(--accent-color); font-weight: bold; }
+        .rca-item:hover {
+            background: rgba(0, 236, 255, 0.07);
+            transform: translateX(4px);
+        }
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .rca-meta { 
+            font-size: 0.8rem; 
+            color: #64748b; 
+            margin-bottom: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+        }
+        .rca-meta span { color: var(--accent-color); font-weight: 600; }
+        
         pre { 
             margin: 0; 
-            background: #010409; 
-            padding: 12px; 
-            border-radius: 6px; 
-            font-size: 0.85rem; 
-            line-height: 1.4;
+            background: rgba(5, 7, 15, 0.8); 
+            padding: 14px; 
+            border-radius: 8px; 
+            font-size: 0.82rem; 
+            line-height: 1.5;
             white-space: pre-wrap;
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(0, 236, 255, 0.08);
+            font-family: 'Fira Code', monospace;
+            color: #94a3b8;
         }
         
         .event-tag {
-            background: rgba(248, 81, 73, 0.1);
+            background: rgba(255, 59, 59, 0.12);
             color: var(--danger-color);
-            padding: 2px 6px;
+            padding: 3px 8px;
             border-radius: 4px;
-            font-size: 0.8rem;
-            margin-right: 5px;
+            font-size: 0.78rem;
+            margin-right: 6px;
+            border: 1px solid rgba(255, 59, 59, 0.2);
+            display: inline-block;
+        }
+        
+        .highlight-flash {
+            animation: flashHighlight 1.5s ease-out;
+        }
+        @keyframes flashHighlight {
+            0% { background-color: rgba(0, 236, 255, 0.3); }
+            100% { background-color: transparent; }
+        }
+        
+        .no-data {
+            text-align: center;
+            color: #475569;
+            padding: 40px;
+            font-style: italic;
         }
     </style>
 </head>
@@ -136,14 +239,14 @@
     <div class="container">
         <header>
             <div class="logo-box">
-                <div class="status-dot"></div>
-                <h1>GHOSTOPS // INFRA_DASHBOARD</h1>
+                <div class="status-dot" id="system-status-dot"></div>
+                <h1>GHOSTOPS // <span>INFRA_CONTROL_ROOM</span></h1>
             </div>
             <button class="chaos-btn" onclick="triggerChaos()">Simulate Chaos</button>
         </header>
 
         <div class="card">
-            <h2>Live System Status <span>Replica Count: {{ pods|length }}</span></h2>
+            <h2>Live System Status <span id="replica-count-badge">Replica Count: ...</span></h2>
             <table>
                 <thead>
                     <tr>
@@ -154,28 +257,15 @@
                         <th>Uptime (TS)</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for pod in pods %}
-                    <tr>
-                        <td>{{ pod.metadata.name }}</td>
-                        <td class="{{ 'status-running' if pod.status.phase == 'Running' else 'status-error' if pod.status.phase == 'Failed' else 'status-pending' }}">
-                            {{ pod.status.phase }}
-                        </td>
-                        <td>{{ pod.status.podIP or 'N/A' }}</td>
-                        <td>{{ pod.spec.nodeName }}</td>
-                        <td>{{ pod.metadata.creationTimestamp }}</td>
-                    </tr>
-                    {% endfor %}
-                    {% if not pods %}
-                    <tr><td colspan="5" style="text-align:center; padding: 40px; color: var(--danger-color);">NO ACTIVE PODS DETECTED</td></tr>
-                    {% endif %}
+                <tbody id="pods-table-body">
+                    <tr><td colspan="5" style="text-align:center; padding: 40px; color: #475569;">Initializing connection...</td></tr>
                 </tbody>
             </table>
         </div>
 
         <div class="grid">
             <div class="card">
-                <h2>Healing Log <span>Events: {{ events|length }}</span></h2>
+                <h2>Healing Incident Log <span id="event-count-badge">Events: ...</span></h2>
                 <div class="scrollable">
                     <table>
                         <thead>
@@ -185,58 +275,241 @@
                                 <th>MTTR (s)</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {% for event in events|reverse %}
-                            <tr>
-                                <td>{{ event.timestamp }}</td>
-                                <td>
-                                    {% for pod in event.pods_lost %}
-                                    <span class="event-tag">{{ pod }}</span>
-                                    {% endfor %}
-                                </td>
-                                <td style="color: var(--success-color); font-weight: bold;">{{ event.recovery_seconds }}s</td>
-                            </tr>
-                            {% endfor %}
+                        <tbody id="events-table-body">
+                            <!-- Populated dynamically -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <div class="card">
-                <h2>AI_RCA Analysis <span>Reports: {{ rca_reports|length }}</span></h2>
-                <div class="scrollable">
-                    {% for report in rca_reports|reverse %}
-                    <div class="rca-item">
-                        <div class="rca-meta">POD: <span>{{ report.pod_name }}</span> | DETECTED: {{ report.timestamp }}</div>
-                        <pre>{{ report.report }}</pre>
-                    </div>
-                    {% endfor %}
-                    {% if not rca_reports %}
-                    <div style="text-align:center; color: #484f58; padding: 40px;">No RCA data available</div>
-                    {% endif %}
+                <h2>AI_RCA Deep Diagnostics <span id="rca-count-badge">Reports: ...</span></h2>
+                <div class="scrollable" id="rca-feed">
+                    <!-- Populated dynamically -->
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Socket.IO Library -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
+        // Connect to Socket.IO Server
+        const socket = io();
+        
+        // Target DOM Elements
+        const podsTableBody = document.getElementById('pods-table-body');
+        const eventsTableBody = document.getElementById('events-table-body');
+        const rcaFeed = document.getElementById('rca-feed');
+        const replicaCountBadge = document.getElementById('replica-count-badge');
+        const eventCountBadge = document.getElementById('event-count-badge');
+        const rcaCountBadge = document.getElementById('rca-count-badge');
+        const systemStatusDot = document.getElementById('system-status-dot');
+
+        // Socket Event: Initial State Loaded
+        socket.on('init_state', function(data) {
+            console.log("Initial state payload received:", data);
+            updatePods(data.pods);
+            updateEvents(data.events);
+            updateRcas(data.rca_reports);
+        });
+
+        // Socket Event: Complete State Update
+        socket.on('state_update', function(data) {
+            console.log("Full state update broadcasted:", data);
+            updatePods(data.pods);
+            updateEvents(data.events);
+            updateRcas(data.rca_reports);
+        });
+
+        // Socket Event: Periodic Pod-only Updates
+        socket.on('pods_update', function(data) {
+            updatePods(data.pods);
+        });
+
+        // Socket Event: Asynchronous single new event logged
+        socket.on('new_event', function(event) {
+            console.log("Real-time healing event registered:", event);
+            addNewEventRow(event);
+        });
+
+        // Socket Event: Asynchronous single new RCA compiled
+        socket.on('new_rca', function(rca) {
+            console.log("Real-time AI RCA compiled:", rca);
+            addNewRcaCard(rca);
+        });
+
+        // --- DOM Update Helpers ---
+        function updatePods(pods) {
+            replicaCountBadge.innerText = `Replica Count: ${pods.length}`;
+            
+            if (pods.length === 0) {
+                podsTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 40px; color: var(--danger-color); font-weight:bold;">NO ACTIVE REPLICAS DETECTED</td></tr>`;
+                systemStatusDot.style.backgroundColor = 'var(--danger-color)';
+                systemStatusDot.style.boxShadow = '0 0 15px var(--danger-color)';
+                return;
+            }
+
+            // Check if any pod is unhealthy
+            let unhealthy = pods.some(p => p.status.phase !== 'Running');
+            if (unhealthy) {
+                systemStatusDot.style.backgroundColor = 'var(--warning-color)';
+                systemStatusDot.style.boxShadow = '0 0 15px var(--warning-color)';
+            } else {
+                systemStatusDot.style.backgroundColor = 'var(--success-color)';
+                systemStatusDot.style.boxShadow = '0 0 15px var(--success-color)';
+            }
+
+            let html = '';
+            pods.forEach(pod => {
+                const name = pod.metadata.name;
+                const phase = pod.status.phase;
+                const ip = pod.status.podIP || 'N/A';
+                const node = pod.spec.nodeName || 'N/A';
+                const uptime = pod.metadata.creationTimestamp;
+                
+                let phaseClass = 'status-pending';
+                if (phase === 'Running') phaseClass = 'status-running';
+                if (phase === 'Failed' || phase === 'Failed' || pod.status.containerStatuses && pod.status.containerStatuses.some(c => c.state.waiting && c.state.waiting.reason === 'CrashLoopBackOff')) {
+                    phaseClass = 'status-error';
+                }
+
+                html += `
+                    <tr>
+                        <td>${name}</td>
+                        <td class="${phaseClass}">${phase}</td>
+                        <td>${ip}</td>
+                        <td>${node}</td>
+                        <td style="color:#64748b; font-size:0.8rem">${uptime}</td>
+                    </tr>
+                `;
+            });
+            podsTableBody.innerHTML = html;
+        }
+
+        function updateEvents(events) {
+            eventCountBadge.innerText = `Events: ${events.length}`;
+            if (events.length === 0) {
+                eventsTableBody.innerHTML = `<tr><td colspan="3" class="no-data">No healing events registered.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            // Show newest events first
+            [...events].reverse().forEach(event => {
+                let tags = '';
+                event.pods_lost.forEach(p => {
+                    tags += `<span class="event-tag">${p}</span>`;
+                });
+                html += `
+                    <tr>
+                        <td>${event.timestamp}</td>
+                        <td>${tags}</td>
+                        <td style="color:var(--success-color); font-weight:bold">${event.recovery_seconds}s</td>
+                    </tr>
+                `;
+            });
+            eventsTableBody.innerHTML = html;
+        }
+
+        function updateRcas(reports) {
+            rcaCountBadge.innerText = `Reports: ${reports.length}`;
+            if (reports.length === 0) {
+                rcaFeed.innerHTML = `<div class="no-data">No AI diagnostics compiled.</div>`;
+                return;
+            }
+
+            let html = '';
+            // Show newest RCAs first
+            [...reports].reverse().forEach(report => {
+                html += renderRcaCardMarkup(report);
+            });
+            rcaFeed.innerHTML = html;
+        }
+
+        function renderRcaCardMarkup(report) {
+            return `
+                <div class="rca-item" id="rca-${report.timestamp.replace(/[:\s-]/g, '')}">
+                    <div class="rca-meta">
+                        <div>POD: <span>${report.pod_name}</span></div>
+                        <div style="font-size:0.75rem">${report.timestamp}</div>
+                    </div>
+                    <pre>${report.report}</pre>
+                </div>
+            `;
+        }
+
+        function addNewEventRow(event) {
+            eventCountBadge.innerText = parseInt(eventCountBadge.innerText.split(' ')[1]) + 1;
+            
+            // Remove "No data" placeholder if exists
+            const placeholder = eventsTableBody.querySelector('.no-data');
+            if (placeholder) {
+                eventsTableBody.innerHTML = '';
+            }
+
+            let tags = '';
+            event.pods_lost.forEach(p => {
+                tags += `<span class="event-tag">${p}</span>`;
+            });
+
+            const newRow = document.createElement('tr');
+            newRow.className = 'highlight-flash';
+            newRow.innerHTML = `
+                <td>${event.timestamp}</td>
+                <td>${tags}</td>
+                <td style="color:var(--success-color); font-weight:bold">${event.recovery_seconds}s</td>
+            `;
+
+            // Prepend new row
+            eventsTableBody.insertBefore(newRow, eventsTableBody.firstChild);
+        }
+
+        function addNewRcaCard(report) {
+            rcaCountBadge.innerText = parseInt(rcaCountBadge.innerText.split(' ')[1]) + 1;
+
+            // Remove "No data" placeholder if exists
+            const placeholder = rcaFeed.querySelector('.no-data');
+            if (placeholder) {
+                rcaFeed.innerHTML = '';
+            }
+
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = renderRcaCardMarkup(report);
+            const card = wrapper.firstElementChild;
+            card.className += ' highlight-flash';
+            
+            // Prepend new card
+            rcaFeed.insertBefore(card, rcaFeed.firstChild);
+        }
+
+        // --- HTTP Trigger to Chaos Script ---
         async function triggerChaos() {
-            if (!confirm("Confirm execution of chaos.py against production replicas?")) return;
+            if (!confirm("🚨 WARNING: Trigger pod termination chaos engineering against production replicas?")) return;
             const btn = document.querySelector('.chaos-btn');
             const originalText = btn.innerText;
             btn.disabled = true;
-            btn.innerText = "EXECUTING...";
+            btn.innerText = "EXPLODING...";
             
             try {
                 const res = await fetch('/trigger-chaos', { method: 'POST' });
                 const data = await res.json();
-                console.log("Chaos Result:", data);
-                // Notification instead of alert for better UX
+                console.log("Chaos Result payload:", data);
+                
+                // Real-time custom notification banner
                 const notify = document.createElement('div');
-                notify.style.cssText = "position:fixed; bottom:20px; right:20px; background:var(--card-bg); border:1px solid var(--accent-color); padding:15px; border-radius:8px; z-index:1000; box-shadow:0 10px 30px rgba(0,0,0,0.5);";
-                notify.innerHTML = `<strong style="color:var(--accent-color)">CHAOS EXECUTED</strong><br><small>${data.status.toUpperCase()}</small>`;
+                notify.style.cssText = "position:fixed; bottom:25px; right:25px; background:var(--card-bg); border:2px solid var(--danger-color); padding:16px; border-radius:10px; z-index:9999; box-shadow:0 10px 40px rgba(0,0,0,0.6); backdrop-filter:blur(8px); animation:slideIn 0.3s ease-out;";
+                notify.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:1.5rem">💥</span>
+                        <div>
+                            <strong style="color:var(--danger-color); letter-spacing:1px;">CHAOS DETONATED</strong><br>
+                            <small style="color:#64748b; font-family:'Fira Code', monospace; font-size:0.75rem;">Status: ${data.status.toUpperCase()}</small>
+                        </div>
+                    </div>
+                `;
                 document.body.appendChild(notify);
-                setTimeout(() => { notify.remove(); location.reload(); }, 2000);
+                setTimeout(() => { notify.remove(); }, 3500);
             } catch (e) {
                 alert("Execution Failure: " + e);
             } finally {
@@ -244,13 +517,6 @@
                 btn.innerText = originalText;
             }
         }
-        
-        // Polling for real-time feel
-        let pollInterval = setInterval(() => {
-            // We could fetch data via AJAX to avoid full reload, 
-            // but the user asked for a simple dashboard.
-            location.reload();
-        }, 8000);
     </script>
 </body>
 </html>
